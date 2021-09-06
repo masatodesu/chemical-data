@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset = "utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href ="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <title>list2</title>
+    </head>
+    <body>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>pk</th>
+                    <th>compaund name</th>
+                    <th>SMILES</th>
+                    <th>comment</th>
+                    <th>boilingpoint</th>
+                    <th>meltingpoint</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in chemical %}
+                    <tr>
+                        <td>{{ c.pk }}</td>
+                        <td>{{ c.name }}</td>
+                        <td>{{ c.SMILES }}</td>
+                        <td>{{ c.comment}}</td>
+                        <td>{{ c.boilingpoint }}</td>
+                        <td>{{ c.meltingpoint }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href ="{% url 'csvexport' %}" class = "btn btn-primary">csv出力</a>
+        <form action="{% url 'csvimport' %}" method='POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type= "file" name="csv">
+            <botton type = "submit">送信</botton>
+        </form>
+    </body>
+</html>

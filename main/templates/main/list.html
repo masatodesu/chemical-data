@@ -1,0 +1,27 @@
+{% extends 'main/base.html'%}
+
+{% block main %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>compaund name</th>
+                <th>SMILES</th>
+                <th>comment</th>
+                <th>b.p. (K)</th>
+                <th>m.p. (K)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--a. モデルの集合(chemicals)を順に出力-->
+            {% for c in chemicals %}
+            <tr>
+                <td>{{ c.name }}</td>
+                <td>{{ c.SMILES }}</td>
+                <td>{{ c.comment }}</td>
+                <td>{{ c.boilingpoint }}</td>
+                <td>{{ c.meltingpoint }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock%}

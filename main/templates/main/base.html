@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang='ja'>
+    <head>
+        {% block head %}{% endblock%}
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+    </head>
+    <title>{% block title %}Chemical{% endblock %}</title>
+
+    <body>
+        
+        <hr />
+        {% block main %}{% endblock%}
+        <hr />
+        {% block body%}{% endblock %}
+    </body>
+</html>
