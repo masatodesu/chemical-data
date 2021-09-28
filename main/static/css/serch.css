@@ -1,0 +1,13 @@
+
+
+.result{
+    font-size: large;
+    text-align: center;
+}
+.jumbotron { background:url(../image/train_sky.jpg) center no-repeat; background-size: cover;}
+
+.lead,.display-4{
+    color: aliceblue;
+}
+
+

@@ -1,4 +1,4 @@
-{% extends 'main/base.html' %}
+{% extends 'main/layout.html' %}
 
 {% block main %}
 <!--フラッシュを出力-->
@@ -15,7 +15,7 @@
 <form action="./crud_create" method="post" novalidate>
     {% csrf_token %}
     {% for field in form %}
-    <div class="pl-2">
+    <div class="mb-3">
         {{ field.label_tag }}<br />
         {{ field }}
         {{ field.errors | yesno:'*,' }}

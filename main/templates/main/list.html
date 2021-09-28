@@ -1,14 +1,14 @@
-{% extends 'main/base.html'%}
-
+{% extends 'main/layout.html'%}
+{% block title %}list{% endblock %}
 {% block main %}
     <table class="table">
         <thead>
             <tr>
-                <th>compaund name</th>
-                <th>SMILES</th>
-                <th>comment</th>
-                <th>b.p. (K)</th>
-                <th>m.p. (K)</th>
+                <th scope="col">compaund name</th>
+                <th scope="col">SMILES</th>
+                <th scope="col">comment</th>
+                <th scope="col">b.p. (K)</th>
+                <th scope="col">m.p. (K)</th>
             </tr>
         </thead>
         <tbody>

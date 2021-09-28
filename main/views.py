@@ -1,4 +1,5 @@
 
+from typing import NamedTuple
 from main.models import Chemical
 from django.shortcuts import redirect, render
 
@@ -12,14 +13,19 @@ from .forms import ChemicalModelForm
 
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
-import csv, io
+import csv
+import io
 
-def index(request):
-    context ={
-        'msg':'Hello World'
-    }
+from django.views.generic import ListView
+from django.db.models import Q
 
-    return render(request, 'main/index.html', context)
+
+#rdkitモジュール
+from rdkit import Chem
+from rdkit.Chem import Draw
+from rdkit.Chem import rdDepictor
+
+
 
 
 def list(request):
@@ -28,31 +34,6 @@ def list(request):
         'chemicals':chemicals
     })
 
-
-
-def form_input(request):
-    #a. フォームオブジェクトを生成
-    form = ChemicalForm()
-    return render(request, 'main/form_input.html',{
-        'form':form
-    })
-
-#a. HTTP POSTでのみ実行されるビュー関数
-@require_POST
-def form_process(request):
-    #b. ポストデータを紐付け
-    form = ChemicalForm(request.POST)
-    #c. 入力値を検証
-    if form.is_valid():
-        # 正しければ結果を表示
-        return render(request,'main/form_process.html',{
-            'form':form
-        })
-    else:
-        # 誤りがあればフォームを再描画
-        return render(request,'main/form_input.html',{
-            'form':form
-        })
 
 # 初期表示時に実行するビュー
 def crud_new(request):
@@ -98,11 +79,11 @@ def csvexport(request):
 def csvimport(request):
     if 'csv' in request.FILES:
         data = io.TextIOWrapper(request.FILES['csv'].file, encoding='utf-8' )
-        print(data)
+        #print(data)
         csv_content= csv.reader(data)
-        print(csv_content)
+        #print(csv_content)
         for i in csv_content:
-            chemical, created = Chemical.objects.get_or_create(name= i[1], SMILES= i[2], comment=i[3], boilingpoint=i[4], meltingpoint=i[5])
+            chemical, created = Chemical.objects.get_or_create(name= i[1])
             chemical.pk= i[0]
             chemical.name = i[1]
             chemical.SMILES = i[2]
@@ -113,3 +94,66 @@ def csvimport(request):
         return redirect('list2')
     else:
         return redirect('list2')
+
+
+class ChemicalList(ListView):
+    
+
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+        
+        if q_word is not None:
+            object_list = Chemical.objects.filter(
+                name=q_word
+            )
+            
+            if object_list.exists():
+                for c in object_list:
+                    smiles = c.SMILES
+                    named = c.name
+                mol = Chem.MolFromSmiles(smiles)
+                Draw.MolToFile(mol,f'main/static/image/{named}.png' )
+                return object_list
+            else:
+                return Chemical.objects.none()
+        else:
+           
+            return Chemical.objects.none() 
+
+
+#トップページ
+def top(request):
+    return render(request, 'main/toppage.html')
+
+import numpy as np 
+from sklearn import datasets 
+from sklearn.svm import SVR 
+from sklearn.metrics import mean_squared_error, explained_variance_score 
+from sklearn.utils import shuffle 
+
+
+def test(request):
+    
+    
+    return render(request, 'main/boston.html')
+
+@require_POST
+def test2(request):
+    data = datasets.load_boston() 
+    X, y = shuffle(data.data, data.target, random_state=7) 
+
+    num_training = int(0.8 * len(X)) 
+    X_train, y_train = X[:num_training], y[:num_training] 
+    X_test, y_test = X[num_training:], y[num_training:] 
+
+    sv_regressor = SVR(kernel='linear', C=1.0, epsilon=0.1) 
+    sv_regressor.fit(X_train, y_train) 
+
+    y_test_pred = sv_regressor.predict(X_test) 
+    mse = mean_squared_error(y_test, y_test_pred) 
+    evs = explained_variance_score(y_test, y_test_pred) 
+    test_data=request.POST.getlist("office")
+    price = sv_regressor.predict([test_data])[0]
+    context={'price':price}
+    
+    return render(request, 'main/boston_result.html', context)

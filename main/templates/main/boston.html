@@ -1,0 +1,51 @@
+{% extends 'main/layout.html'%}
+{% load static %}
+
+{% block main%}
+
+<form action="./test2" method="post">{% csrf_token %}
+    <P>人口 1 人当たりの犯罪発生数</P>
+    <input type="textbox" value="3.7" name="office">
+    <br>
+    <p>25,000 平方フィート以上の住居区画の占める割合</p>
+    <input type="textbox" value="0" name="office">
+    <br>
+    <p>小売業以外の商業が占める面積の割合</p>
+    <input type="textbox" value="18.4" name="office">
+    <br>
+    <p>チャールズ川によるダミー変数 (1: 川の周辺, 0: それ以外) </p>
+    <input type="textbox" value="1" name="office">
+    <br>
+    <p>NOx の濃度</p>
+    <input type="textbox" value="0.87" name="office">
+    <br>
+    <p>住居の平均部屋数</p>
+    <input type="textbox" value="5.95" name="office">
+    <br>
+    <p>1940 年より前に建てられた物件の割合</p>
+    <input type="textbox" value="91" name="office">
+    <br>
+    <p>5 つのボストン市の雇用施設からの距離 (重み付け済)</p>
+    <input type="textbox" value="2.5052" name="office">
+    <br>
+    <p>環状高速道路へのアクセスしやすさ</p>
+    <input type="textbox" value="26" name="office">
+    <br>
+    <p>$10,000 ドルあたりの不動産税率の総計</p>
+    <input type="textbox" value="666" name="office">
+    <br>
+    <p>町毎の児童と教師の比率</p>
+    <input type="textbox" value="20.2" name="office">
+    <br>
+    <p>町毎の黒人 (Bk) の比率を次の式で表したもの。 1000(Bk – 0.63)^2</p>
+    <input type="textbox" value="351.34" name="office">
+    <br>
+    <p>給与の低い職業に従事する人口の割合 (%)</p>
+    <input type="textbox" value="15.27" name="office">
+    <br>
+    <input type="submit" id="button" name="button" value="送信">
+</form>
+
+
+{{ price }}
+{% endblock%}

@@ -1,0 +1,25 @@
+{% extends 'main/layout.html' %}
+{% block title %}serch{% endblock %}
+       {% block main %}
+       
+       <form action="" method="get">
+           <input class="form-control form-control-lg" name="query" type="text" placeholder="serch at compound name" aria-label=".form-control-lg example" value="{{ request.GET.query }}" >
+           <div class="d-grid gap-2">
+           <button class="btn btn-primary" type="submit">検索</button>
+           </div>
+       </form> 
+       
+       <div class="result">
+       {% for c in object_list %}
+        {{ c.name }}
+        <br>
+        <img src="../../static/image/{{ c.name }}.png">
+        <br>
+        {{ c.SMILES }}
+
+        {% empty %}
+            <p>検索結果はありません。<br>もしくはまだ入力していません。</p>
+       {% endfor %}
+        {{ comment }}
+       </div>
+       {% endblock %}
